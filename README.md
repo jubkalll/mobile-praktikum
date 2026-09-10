@@ -23,3 +23,31 @@ Aplikasi latihan untuk ...
 Nama panggilan / akun GitHub: jubkalll
 ## Status
 Proyek awal perkuliahan.
+# Proyek Pemrograman Mobile
+
+## Deskripsi
+Aplikasi latihan untuk pemrograman mobile.
+
+## Pengembang
+Nama panggilan / akun GitHub: jubkalll
+
+## Status
+Proyek awal perkuliahan.
+
+---
+
+## Tujuan Aplikasi
+[Tuliskan tujuan aplikasi Anda di sini, misalnya: Aplikasi ini bertujuan untuk membantu pengguna mencatat pengeluaran keuangan sehari-hari dengan mudah dan cepat.]
+
+## Rencana Fitur
+Berikut adalah 3 fitur utama yang direncanakan untuk aplikasi ini:
+1. [Fitur 1, misal: Pencatatan pemasukan dan pengeluaran]
+2. [Fitur 2, misal: Grafik laporan keuangan bulanan]
+3. [Fitur 3, misal: Pengingat tagihan otomatis]
+
+## Cara Menjalankan Aplikasi
+Untuk menjalankan proyek Flutter ini di komputer lokal, jalankan perintah berikut secara berurutan di terminal:
+
+1. Unduh semua *dependencies*:
+   ```bash
+   flutter pub get
