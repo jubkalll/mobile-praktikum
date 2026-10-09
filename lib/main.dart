@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'providers/course_provider.dart';
 import 'views/home_page.dart';
 import 'views/course_list_page.dart';
@@ -8,7 +9,12 @@ const String studentName = 'Juberta Kalvarisman Waruwu';
 const String studentId = '2415051051';
 
 void main() {
-  runApp(const CourseExplorerApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CourseProvider(),
+      child: const CourseExplorerApp(),
+    ),
+  );
 }
 
 class CourseExplorerApp extends StatelessWidget {
@@ -37,87 +43,77 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-  final CourseProvider _courseProvider = CourseProvider();
-
-  @override
-  void dispose() {
-    _courseProvider.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: _courseProvider,
-      builder: (context, child) {
-        final List<Widget> pages = [
-          HomePage(
-            studentName: studentName,
-            studentId: studentId,
-            totalCourses: _courseProvider.courses.length,
-          ),
-          CourseListPage(
-            courses: _courseProvider.courses,
-            onToggleFavorite: _courseProvider.toggleFavorite,
-          ),
-          ProfilePage(
-            studentName: studentName,
-            studentId: studentId,
-          ),
-        ];
+    final courseProvider = Provider.of<CourseProvider>(context);
 
-        return Scaffold(
-          appBar: AppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final List<Widget> pages = [
+      HomePage(
+        studentName: studentName,
+        studentId: studentId,
+        totalCourses: courseProvider.courses.length,
+      ),
+      CourseListPage(
+        courses: courseProvider.courses,
+        onToggleFavorite: courseProvider.toggleFavorite,
+      ),
+      ProfilePage(
+        studentName: studentName,
+        studentId: studentId,
+      ),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Course Explorer v2',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    Text(
-                      '$studentId • $studentName',
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
+                const Text(
+                  'Course Explorer v2',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                Chip(
-                  avatar: const Icon(Icons.favorite, color: Colors.red, size: 16),
-                  label: Text('${_courseProvider.favoriteCount}'),
+                Text(
+                  '$studentId • $studentName',
+                  style: const TextStyle(fontSize: 12),
                 ),
               ],
             ),
-            backgroundColor: Colors.blue.shade700,
-            foregroundColor: Colors.white,
+            Chip(
+              avatar: const Icon(Icons.favorite, color: Colors.red, size: 16),
+              label: Text('${courseProvider.favoriteCount}'),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.blue.shade700,
+        foregroundColor: Colors.white,
+      ),
+      body: pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          body: pages[_selectedIndex],
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.book),
-                label: 'Courses',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'Courses',
           ),
-        );
-      },
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
     );
   }
 }
