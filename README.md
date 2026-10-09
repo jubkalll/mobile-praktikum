@@ -51,3 +51,15 @@ Untuk menjalankan proyek Flutter ini di komputer lokal, jalankan perintah beriku
 1. Unduh semua *dependencies*:
    ```bash
    flutter pub get
+   # Course Explorer v2 - Architecture Audit
+
+## Struktur Folder & Tanggung Jawab Layer
+- **`models/`**: Definisi struktur data/objek (`Course`) dan fungsi parsing `fromJson`.
+- **`services/`**: Menangani detail teknis sumber data (membaca file JSON via `rootBundle`).
+- **`repositories/`**: Lapisan abstraksi data antara Service dan Provider.
+- **`providers/`**: Pengelola state aplikasi (`CourseProvider`) menggunakan `ChangeNotifier`.
+- **`views/`**: Tampilan antarmuka pengguna (Screen/Halaman).
+- **`widgets/`**: Komponen UI yang dapat digunakan kembali (`CourseCard`).
+
+## Dependency Direction
+Screen/Widget -> Provider -> Repository -> Service
