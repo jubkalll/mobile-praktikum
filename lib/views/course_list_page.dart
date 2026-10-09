@@ -1,29 +1,42 @@
 import 'package:flutter/material.dart';
-import '../models/course.dart';
+import 'package:provider/provider.dart';
+import '../providers/course_provider.dart';
 import '../widgets/course_card.dart';
+import 'add_course_page.dart';
 
 class CourseListPage extends StatelessWidget {
-  final List<Course> courses;
-  final Function(String) onToggleFavorite;
-
-  const CourseListPage({
-    super.key,
-    required this.courses,
-    required this.onToggleFavorite,
-  });
+  const CourseListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<CourseProvider>();
+
+    if (provider.isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       body: ListView.builder(
-        itemCount: courses.length,
+        itemCount: provider.courses.length,
         itemBuilder: (context, index) {
-          final course = courses[index];
+          final course = provider.courses[index];
           return CourseCard(
             course: course,
-            onToggleFavorite: () => onToggleFavorite(course.code),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddCoursePage(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

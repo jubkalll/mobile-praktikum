@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'services/course_service.dart';
+import 'repositories/course_repository.dart';
 import 'providers/course_provider.dart';
 import 'views/home_page.dart';
 import 'views/course_list_page.dart';
@@ -9,9 +11,12 @@ const String studentName = 'Juberta Kalvarisman Waruwu';
 const String studentId = '2415051051';
 
 void main() {
+  final courseService = CourseService();
+  final courseRepository = CourseRepository(courseService);
+
   runApp(
     ChangeNotifierProvider(
-      create: (context) => CourseProvider(),
+      create: (context) => CourseProvider(courseRepository),
       child: const CourseExplorerApp(),
     ),
   );
@@ -44,26 +49,20 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
+  final List<Widget> pages = [
+    const HomePage(
+      studentName: studentName,
+      studentId: studentId,
+    ),
+    const CourseListPage(),
+    const ProfilePage(
+      studentName: studentName,
+      studentId: studentId,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final courseProvider = Provider.of<CourseProvider>(context);
-
-    final List<Widget> pages = [
-      HomePage(
-        studentName: studentName,
-        studentId: studentId,
-        totalCourses: courseProvider.courses.length,
-      ),
-      CourseListPage(
-        courses: courseProvider.courses,
-        onToggleFavorite: courseProvider.toggleFavorite,
-      ),
-      ProfilePage(
-        studentName: studentName,
-        studentId: studentId,
-      ),
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -82,9 +81,13 @@ class _MainPageState extends State<MainPage> {
                 ),
               ],
             ),
-            Chip(
-              avatar: const Icon(Icons.favorite, color: Colors.red, size: 16),
-              label: Text('${courseProvider.favoriteCount}'),
+            Consumer<CourseProvider>(
+              builder: (context, provider, child) {
+                return Chip(
+                  avatar: const Icon(Icons.favorite, color: Colors.red, size: 16),
+                  label: Text('${provider.favoriteCount}'),
+                );
+              },
             ),
           ],
         ),

@@ -1,34 +1,31 @@
 import 'package:flutter/material.dart';
 import '../models/course.dart';
+import '../repositories/course_repository.dart';
 
 class CourseProvider extends ChangeNotifier {
-  final List<Course> _courses = [
-    Course(
-      code: 'CS101',
-      title: 'Git & GitHub',
-      credits: 3,
-      status: 'done',
-      isFavorite: false,
-    ),
-    Course(
-      code: 'CS102',
-      title: 'Dart Fundamentals',
-      credits: 3,
-      status: 'done',
-      isFavorite: false,
-    ),
-    Course(
-      code: 'CS103',
-      title: 'State Management',
-      credits: 4,
-      status: 'active',
-      isFavorite: false,
-    ),
-  ];
+  final CourseRepository _repository;
+
+  List<Course> _courses = [];
+  bool _isLoading = false;
+
+  CourseProvider(this._repository) {
+    loadCourses();
+  }
 
   List<Course> get courses => _courses;
+  bool get isLoading => _isLoading;
 
   int get favoriteCount => _courses.where((c) => c.isFavorite).length;
+
+  Future<void> loadCourses() async {
+    _isLoading = true;
+    notifyListeners();
+
+    _courses = await _repository.getCourses();
+
+    _isLoading = false;
+    notifyListeners();
+  }
 
   void toggleFavorite(String code) {
     final index = _courses.indexWhere((element) => element.code == code);

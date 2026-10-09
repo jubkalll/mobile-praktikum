@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/course.dart';
+import '../providers/course_provider.dart';
 
 class AddCoursePage extends StatefulWidget {
-  final Function(Course) onAddCourse;
-
-  const AddCoursePage({
-    super.key,
-    required this.onAddCourse,
-  });
+  const AddCoursePage({super.key});
 
   @override
   State<AddCoursePage> createState() => _AddCoursePageState();
@@ -30,7 +27,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Course'),
+        title: const Text('Tambah Mata Kuliah'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,15 +35,15 @@ class _AddCoursePageState extends State<AddCoursePage> {
           children: [
             TextField(
               controller: _codeController,
-              decoration: const InputDecoration(labelText: 'Course Code'),
+              decoration: const InputDecoration(labelText: 'Kode Mata Kuliah'),
             ),
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Nama Mata Kuliah'),
             ),
             TextField(
               controller: _creditsController,
-              decoration: const InputDecoration(labelText: 'Credits'),
+              decoration: const InputDecoration(labelText: 'SKS'),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20),
@@ -60,11 +57,12 @@ class _AddCoursePageState extends State<AddCoursePage> {
                     credits: int.tryParse(_creditsController.text) ?? 3,
                     status: 'active',
                   );
-                  widget.onAddCourse(newCourse);
+
+                  context.read<CourseProvider>().addCourse(newCourse);
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Save'),
+              child: const Text('Simpan'),
             ),
           ],
         ),

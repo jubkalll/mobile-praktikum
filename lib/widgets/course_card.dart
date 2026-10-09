@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/course.dart';
+import '../providers/course_provider.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
-  final VoidCallback onToggleFavorite;
 
   const CourseCard({
     super.key,
     required this.course,
-    required this.onToggleFavorite,
   });
 
   @override
@@ -32,7 +32,9 @@ class CourseCard extends StatelessWidget {
             course.isFavorite ? Icons.favorite : Icons.favorite_border,
             color: course.isFavorite ? Colors.red : null,
           ),
-          onPressed: onToggleFavorite,
+          onPressed: () {
+            context.read<CourseProvider>().toggleFavorite(course.code);
+          },
         ),
       ),
     );
