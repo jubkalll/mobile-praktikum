@@ -48,7 +48,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_codeController.text.isNotEmpty &&
                     _titleController.text.isNotEmpty) {
                   final newCourse = Course(
@@ -59,6 +59,9 @@ class _AddCoursePageState extends State<AddCoursePage> {
                   );
 
                   context.read<CourseProvider>().addCourse(newCourse);
+
+                  // Solusi Kasus D: Periksa mounted sebelum menggunakan context setelah operasi async/state
+                  if (!mounted) return;
                   Navigator.pop(context);
                 }
               },

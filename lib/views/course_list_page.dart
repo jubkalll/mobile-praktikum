@@ -26,6 +26,36 @@ class CourseListPage extends StatelessWidget {
       );
     }
 
+    if (provider.error != null) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 48,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Terjadi Kesalahan:\n${provider.error}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.red),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  context.read<CourseProvider>().loadCourses();
+                },
+                child: const Text('Coba Lagi'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Daftar Mata Kuliah'),
@@ -38,15 +68,19 @@ class CourseListPage extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: provider.courses.length,
-        itemBuilder: (context, index) {
-          final course = provider.courses[index];
-          return CourseCard(
-            course: course,
-          );
-        },
-      ),
+      body: provider.courses.isEmpty
+          ? const Center(
+              child: Text('Belum ada data mata kuliah.'),
+            )
+          : ListView.builder(
+              itemCount: provider.courses.length,
+              itemBuilder: (context, index) {
+                final course = provider.courses[index];
+                return CourseCard(
+                  course: course,
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
