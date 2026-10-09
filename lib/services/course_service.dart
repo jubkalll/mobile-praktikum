@@ -2,7 +2,7 @@ import '../models/course.dart';
 
 class CourseService {
   Future<List<Course>> fetchCourses() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(seconds: 2));
     return [
       Course(
         code: 'CS101',
