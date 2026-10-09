@@ -7,6 +7,7 @@ class CourseProvider extends ChangeNotifier {
 
   List<Course> _courses = [];
   bool _isLoading = false;
+  String? _error;
 
   CourseProvider(this._repository) {
     loadCourses();
@@ -14,17 +15,23 @@ class CourseProvider extends ChangeNotifier {
 
   List<Course> get courses => _courses;
   bool get isLoading => _isLoading;
+  String? get error => _error;
 
   int get favoriteCount => _courses.where((c) => c.isFavorite).length;
 
   Future<void> loadCourses() async {
     _isLoading = true;
+    _error = null;
     notifyListeners();
 
-    _courses = await _repository.getCourses();
-
-    _isLoading = false;
-    notifyListeners();
+    try {
+      _courses = await _repository.getCourses();
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   void toggleFavorite(String code) {

@@ -21,32 +21,71 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Card(
+              elevation: 2,
               child: ListTile(
-                title: Text('$studentId • $studentName'),
+                leading: const Icon(Icons.person, color: Colors.blue),
+                title: Text(
+                  '$studentId • $studentName',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    const Text('Courses'),
-                    Selector<CourseProvider, int>(
-                      selector: (context, provider) => provider.courses.length,
-                      builder: (context, totalCourses, child) {
-                        return Text(
-                          '$totalCourses',
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+            Row(
+              children: [
+                Expanded(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          const Text('Courses', style: TextStyle(color: Colors.grey)),
+                          const SizedBox(height: 8),
+                          Selector<CourseProvider, int>(
+                            selector: (context, provider) => provider.courses.length,
+                            builder: (context, total, child) {
+                              return Text(
+                                '$total',
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          const Text('Favorites', style: TextStyle(color: Colors.grey)),
+                          const SizedBox(height: 8),
+                          Selector<CourseProvider, int>(
+                            selector: (context, provider) => provider.favoriteCount,
+                            builder: (context, favorites, child) {
+                              return Text(
+                                '$favorites',
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
