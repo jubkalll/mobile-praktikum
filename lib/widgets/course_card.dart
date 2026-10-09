@@ -1,60 +1,38 @@
 import 'package:flutter/material.dart';
+import '../models/course.dart';
 
 class CourseCard extends StatelessWidget {
-  final String title;
-  final String code;
-  final int credits;
-  final String status;
+  final Course course;
+  final VoidCallback onToggleFavorite;
 
   const CourseCard({
     super.key,
-    required this.title,
-    required this.code,
-    required this.credits,
-    required this.status,
+    required this.course,
+    required this.onToggleFavorite,
   });
-
-  Color _getStatusColor(String status) {
-    switch (status) {
-      case 'done':
-        return Colors.green;
-      case 'active':
-        return Colors.orange;
-      default:
-        return Colors.grey;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 6.0),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.blue.shade100,
-          child: Text(
-            '${credits}SKS',
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
-            ),
-          ),
-        ),
         title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
+          course.title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text('Kode: $code'),
-        trailing: Chip(
-          label: Text(
-            status,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+        subtitle: Text(
+          course.status,
+          style: TextStyle(
+            color: course.status == 'done' ? Colors.green : Colors.teal,
+            fontWeight: FontWeight.w600,
           ),
-          backgroundColor: _getStatusColor(status),
+        ),
+        trailing: IconButton(
+          icon: Icon(
+            course.isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: course.isFavorite ? Colors.red : null,
+          ),
+          onPressed: onToggleFavorite,
         ),
       ),
     );
