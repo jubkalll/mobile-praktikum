@@ -5,7 +5,7 @@ import 'repositories/course_repository.dart';
 import 'providers/course_provider.dart';
 import 'views/home_page.dart';
 import 'views/course_list_page.dart';
-import 'views/profile_page.dart';
+import 'views/favorites_page.dart';
 
 const String studentName = 'Juberta Kalvarisman Waruwu';
 const String studentId = '2415051051';
@@ -55,10 +55,7 @@ class _MainPageState extends State<MainPage> {
       studentId: studentId,
     ),
     const CourseListPage(),
-    const ProfilePage(
-      studentName: studentName,
-      studentId: studentId,
-    ),
+    const FavoritesPage(),
   ];
 
   @override
@@ -113,8 +110,8 @@ class _MainPageState extends State<MainPage> {
             label: 'Courses',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
           ),
         ],
       ),
