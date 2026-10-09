@@ -32,10 +32,11 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text('Courses'),
-                    Consumer<CourseProvider>(
-                      builder: (context, provider, child) {
+                    Selector<CourseProvider, int>(
+                      selector: (context, provider) => provider.courses.length,
+                      builder: (context, totalCourses, child) {
                         return Text(
-                          '${provider.courses.length}',
+                          '$totalCourses',
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,

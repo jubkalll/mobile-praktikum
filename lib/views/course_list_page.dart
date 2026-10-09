@@ -27,6 +27,17 @@ class CourseListPage extends StatelessWidget {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Daftar Mata Kuliah'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              context.read<CourseProvider>().loadCourses();
+            },
+          ),
+        ],
+      ),
       body: ListView.builder(
         itemCount: provider.courses.length,
         itemBuilder: (context, index) {

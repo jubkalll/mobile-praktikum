@@ -81,11 +81,12 @@ class _MainPageState extends State<MainPage> {
                 ),
               ],
             ),
-            Consumer<CourseProvider>(
-              builder: (context, provider, child) {
+            Selector<CourseProvider, int>(
+              selector: (context, provider) => provider.favoriteCount,
+              builder: (context, favoriteCount, child) {
                 return Chip(
                   avatar: const Icon(Icons.favorite, color: Colors.red, size: 16),
-                  label: Text('${provider.favoriteCount}'),
+                  label: Text('$favoriteCount'),
                 );
               },
             ),
