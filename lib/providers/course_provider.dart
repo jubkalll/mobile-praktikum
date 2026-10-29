@@ -1,6 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../models/course.dart';
 import '../repositories/course_repository.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart'; // Untuk debugPrint
+
+const String apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 
 class CourseProvider extends ChangeNotifier {
   final CourseRepository _repository;
@@ -8,6 +13,17 @@ class CourseProvider extends ChangeNotifier {
   List<Course> _courses = [];
   bool _isLoading = false;
   String? _error;
+  Future<List<dynamic>> fetchCourses() async {
+    final response = await http.get(Uri.parse(apiUrl));
+    
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as List<dynamic>;
+      debugPrint('Berhasil! Jumlah item: ${data.length}');
+      return data;
+    }
+    
+    throw Exception('HTTP ${response.statusCode}');
+  }
 
   CourseProvider(this._repository) {
     loadCourses();
