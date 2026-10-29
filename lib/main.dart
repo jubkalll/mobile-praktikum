@@ -1,23 +1,25 @@
-import 'package:flutter/material.dart'; // Pastikan import material ada
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'repositories/course_repository.dart';
 import 'providers/course_provider.dart';
 import 'views/home_page.dart';
 import 'views/course_list_page.dart';
 import 'views/favorites_page.dart';
-import 'services/course_api_service.dart'; // Import ditaruh di sini
+import 'services/course_data_source.dart';
+import 'services/course_api_service.dart';
 
 const String studentName = 'Juberta Kalvarisman Waruwu';
 const String studentId = '2415051051';
 const String apiBaseUrl = 'https://jsonplaceholder.typicode.com/posts';
 
 void main() {
-  final apiService = CourseApiService(apiBaseUrl);
-  final repository = CourseRepository(apiService);
+  final CourseDataSource dataSource = CourseApiService(apiBaseUrl);
+  final repository = CourseRepository(dataSource);
 
   runApp(
     ChangeNotifierProvider(
-  create: (_) => CourseProvider(repository)..loadCourses(),      child: const CourseExplorerApp(),
+      create: (_) => CourseProvider(repository)..loadCourses(),
+      child: const CourseExplorerApp(),
     ),
   );
 }
@@ -73,7 +75,7 @@ class _MainPageState extends State<MainPage> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 Text(
-                  '$studentId • $studentName',
+                  '$studentId - $studentName',
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
