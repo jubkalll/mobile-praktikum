@@ -28,12 +28,15 @@ class CourseSupabaseService implements CourseDataSource {
 
   @override
   Future<void> updateCourse(int id, Course course) async {
-    await _supabase.from('courses').update({
-      'code': course.code,
-      'title': course.title,
-      'credits': course.credits,
-      'status': course.status,
-    }).eq('id', id);
+    await _supabase
+        .from('courses')
+        .update({
+          'code': course.code,
+          'title': course.title,
+          'credits': course.credits,
+          'status': course.status,
+        })
+        .eq('id', id);
   }
 
   @override
