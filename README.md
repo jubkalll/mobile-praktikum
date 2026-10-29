@@ -63,3 +63,13 @@ Untuk menjalankan proyek Flutter ini di komputer lokal, jalankan perintah beriku
 
 ## Dependency Direction
 Screen/Widget -> Provider -> Repository -> Service
+Endpoint yang digunakan: https://api.example.com/courses (API Dummy/Latihan)
+Status code: 200
+Resource JSON:
+{
+  "id": 1,
+  "code": "MOB01",
+  "title": "Git & GitHub",
+  "credits": 2,
+  "status": "active"
+}
