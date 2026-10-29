@@ -6,4 +6,6 @@ class CourseRepository {
   final CourseApiService apiService;
 
   Future<List<Course>> getCourses() => apiService.getCourses();
+
+  Future<Course> createCourse(Course course) => apiService.createCourse(course);
 }

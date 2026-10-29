@@ -33,7 +33,7 @@ class CourseCard extends StatelessWidget {
             color: course.isFavorite ? Colors.red : null,
           ),
           onPressed: () {
-            context.read<CourseProvider>().toggleFavorite(course.code);
+            context.read<CourseProvider>().toggleFavorite(course);
           },
         ),
       ),
