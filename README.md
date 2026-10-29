@@ -79,7 +79,7 @@ Berikut adalah 3 fitur utama yang direncanakan untuk aplikasi ini:
 3. [Fitur 3, misal: Pengingat tagihan otomatis]
 
 ## Cara Menjalankan Aplikasi
-Untuk menjalankan proyek Flutter ini di komputer lokal, jalankan perintah berikut secara berurutan di terminal:
+Untuk menjalankan proyek Flutter ini di komputer lokal, jalankan perintah berikut secara berurutan di terminal :
 
 1. Unduh semua *dependencies*:
    ```bash
