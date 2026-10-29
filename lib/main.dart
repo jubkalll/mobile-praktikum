@@ -7,7 +7,7 @@ import 'views/home_page.dart';
 import 'views/course_list_page.dart';
 import 'views/favorites_page.dart';
 import 'services/course_data_source.dart';
-import 'services/course_api_service.dart';
+import 'services/course_supabase_service.dart';
 
 const String studentName = 'Juberta Kalvarisman Waruwu';
 const String studentId = '2415051051';
@@ -24,9 +24,8 @@ Future<void> main() async {
     publishableKey: supabasePublishableKey,
   );
 
-  final CourseDataSource dataSource = CourseApiService(apiBaseUrl);
+  final CourseDataSource dataSource = CourseSupabaseService();
   final repository = CourseRepository(dataSource);
-
   runApp(
     ChangeNotifierProvider(
       create: (_) => CourseProvider(repository)..loadCourses(),
