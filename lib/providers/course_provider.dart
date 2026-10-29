@@ -13,16 +13,27 @@ class CourseProvider extends ChangeNotifier {
   List<Course> _courses = [];
   bool _isLoading = false;
   String? _error;
-  Future<List<dynamic>> fetchCourses() async {
+  Future<List<Course>> fetchCourses() async {
     final response = await http.get(Uri.parse(apiUrl));
     
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body) as List<dynamic>;
-      debugPrint('Berhasil! Jumlah item: ${data.length}');
-      return data;
+      final List data = jsonDecode(response.body) as List;
+      // Konversi Map JSON menjadi objek Course
+      return data.map((e) => Course.fromJson(e as Map<String, dynamic>)).toList();
     }
     
     throw Exception('HTTP ${response.statusCode}');
+  }
+
+  Future<void> loadTestData() async {
+    try {
+      // Ambil 5 data pertama saja untuk ditampilkan di UI
+      final fetchedData = await fetchCourses();
+      _courses = fetchedData.take(5).toList();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
   }
 
   CourseProvider(this._repository) {
