@@ -10,4 +10,6 @@ class CourseRepository {
   Future<Course> createCourse(Course course) => apiService.createCourse(course);
 
   Future<void> updateCourse(int id, Course course) => apiService.updateCourse(id, course);
+
+  Future<void> deleteCourse(int id) => apiService.deleteCourse(id);
 }

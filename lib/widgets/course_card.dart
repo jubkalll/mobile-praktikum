@@ -43,6 +43,44 @@ class CourseCard extends StatelessWidget {
               },
             ),
             IconButton(
+              icon: const Icon(Icons.delete, size: 20, color: Colors.redAccent),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Hapus Course'),
+                    content: const Text('Yakin ingin menghapus course ini?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Batal'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          try {
+                            if (course.id != null) {
+                              await context.read<CourseProvider>().deleteCourse(course.id!);
+                            }
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Course berhasil dihapus')),
+                            );
+                          } catch (e) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Gagal menghapus course')),
+                            );
+                          }
+                        },
+                        child: const Text('Hapus', style: TextStyle(color: Colors.red)),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            IconButton(
               icon: Icon(
                 course.isFavorite ? Icons.favorite : Icons.favorite_border,
                 color: course.isFavorite ? Colors.red : null,

@@ -54,6 +54,21 @@ class CourseProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteCourse(int id) async {
+    _isSaving = true;
+    notifyListeners();
+
+    try {
+      await _repository.deleteCourse(id);
+      await loadCourses();
+    } catch (e) {
+      rethrow;
+    } finally {
+      _isSaving = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> createCourse(Course course) async {
     _isSaving = true;
     notifyListeners();
