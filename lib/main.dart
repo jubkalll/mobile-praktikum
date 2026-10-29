@@ -1,23 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; // Pastikan import material ada
 import 'package:provider/provider.dart';
-import 'services/course_service.dart';
 import 'repositories/course_repository.dart';
 import 'providers/course_provider.dart';
 import 'views/home_page.dart';
 import 'views/course_list_page.dart';
 import 'views/favorites_page.dart';
+import 'services/course_api_service.dart'; // Import ditaruh di sini
 
 const String studentName = 'Juberta Kalvarisman Waruwu';
 const String studentId = '2415051051';
+const String apiBaseUrl = 'https://jsonplaceholder.typicode.com/posts';
 
 void main() {
-  final courseService = CourseService();
-  final courseRepository = CourseRepository(courseService);
+  final apiService = CourseApiService(apiBaseUrl);
+  final repository = CourseRepository(apiService);
 
   runApp(
     ChangeNotifierProvider(
-      create: (context) => CourseProvider(courseRepository),
-      child: const CourseExplorerApp(),
+  create: (_) => CourseProvider(repository)..loadCourses(),      child: const CourseExplorerApp(),
     ),
   );
 }

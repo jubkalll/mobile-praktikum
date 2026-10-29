@@ -1,12 +1,9 @@
 import '../models/course.dart';
-import '../services/course_service.dart';
+import '../services/course_api_service.dart';
 
 class CourseRepository {
-  final CourseService _service;
+  CourseRepository(this.apiService);
+  final CourseApiService apiService;
 
-  CourseRepository(this._service);
-
-  Future<List<Course>> getCourses() async {
-    return await _service.fetchCourses();
-  }
+  Future<List<Course>> getCourses() => apiService.getCourses();
 }

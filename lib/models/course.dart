@@ -4,9 +4,8 @@ class Course {
   final String title;
   final int credits;
   final String status;
-  bool isFavorite; // Field ini ditambahkan kembali agar error hilang
+  bool isFavorite; 
 
-  // Hapus kata 'const' di sini karena isFavorite bisa berubah nilainya
   Course({
     this.id,
     required this.code,
