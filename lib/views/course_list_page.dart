@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/course_provider.dart';
 import '../widgets/course_card.dart';
 import '../widgets/error_view.dart';
+import 'add_course_page.dart';
 
 class CourseListPage extends StatelessWidget {
   const CourseListPage({super.key});
@@ -36,15 +37,40 @@ class CourseListPage extends StatelessWidget {
     }
 
     // 4. Success State (Menampilkan list data)
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(), // Menghindari bentrok scroll dengan home_page
-      itemCount: provider.courses.length,
-      itemBuilder: (context, index) {
-        final course = provider.courses[index];
-        // Pastikan Anda mem-passing parameter yang benar sesuai CourseCard Anda
-        return CourseCard(course: course); 
-      },
+    return Column(
+      children: [
+        // Tombol Tambah Course
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddCoursePage()),
+              );
+            },
+            icon: const Icon(Icons.add),
+            label: const Text('Tambah Course'),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 50), // Lebar penuh
+              backgroundColor: Colors.teal.shade50,
+              foregroundColor: Colors.teal.shade900,
+              elevation: 0,
+            ),
+          ),
+        ),
+        
+        // List Course
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: provider.courses.length,
+          itemBuilder: (context, index) {
+            final course = provider.courses[index];
+            return CourseCard(course: course); 
+          },
+        ),
+      ],
     );
   }
 }
