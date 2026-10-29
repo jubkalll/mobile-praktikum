@@ -8,4 +8,6 @@ class CourseRepository {
   Future<List<Course>> getCourses() => apiService.getCourses();
 
   Future<Course> createCourse(Course course) => apiService.createCourse(course);
+
+  Future<void> updateCourse(int id, Course course) => apiService.updateCourse(id, course);
 }

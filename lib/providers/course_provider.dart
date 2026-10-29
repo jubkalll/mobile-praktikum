@@ -23,6 +23,21 @@ class CourseProvider extends ChangeNotifier {
   bool get isSaving => _isSaving;
   String? get error => _error;
 
+  Future<void> updateCourse(int id, Course course) async {
+    _isSaving = true;
+    notifyListeners();
+
+    try {
+      await _repository.updateCourse(id, course);
+      await loadCourses();
+    } catch (e) {
+      rethrow;
+    } finally {
+      _isSaving = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> loadCourses() async {
     _isLoading = true;
     _error = null;

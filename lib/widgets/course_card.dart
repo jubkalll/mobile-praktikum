@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/course.dart';
 import '../providers/course_provider.dart';
+import '../views/edit_course_page.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
@@ -27,14 +28,30 @@ class CourseCard extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: IconButton(
-          icon: Icon(
-            course.isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: course.isFavorite ? Colors.red : null,
-          ),
-          onPressed: () {
-            context.read<CourseProvider>().toggleFavorite(course);
-          },
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.edit, size: 20, color: Colors.blueGrey),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditCoursePage(course: course),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                course.isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: course.isFavorite ? Colors.red : null,
+              ),
+              onPressed: () {
+                context.read<CourseProvider>().toggleFavorite(course);
+              },
+            ),
+          ],
         ),
       ),
     );
