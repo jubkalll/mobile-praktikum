@@ -12,8 +12,8 @@ import 'services/course_api_service.dart';
 const String studentName = 'Juberta Kalvarisman Waruwu';
 const String studentId = '2415051051';
 
-const String supabaseUrl = 'YOUR_SUPABASE_URL';
-const String supabasePublishableKey = 'YOUR_SUPABASE_PUBLISHABLE_KEY';
+const String supabaseUrl = 'https://htgpybzpjbasdrpgjtxw.supabase.co';
+const String supabasePublishableKey = 'sb_publishable_k7kzet9UuCmGQ_v5Rx-e-w_C733f7VJ';
 const String apiBaseUrl = 'https://jsonplaceholder.typicode.com/posts';
 
 Future<void> main() async {
